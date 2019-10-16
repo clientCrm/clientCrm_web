@@ -1,2 +1,6 @@
-spring.vlet.load-on-startup=100thymeleaf.cache=false
-spring.mvc.ser
+spring:
+  thymeleaf:
+    cache: false
+  mvc:
+    servlet:
+      load-on-startup: 100
