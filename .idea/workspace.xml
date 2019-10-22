@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4ab62c77-8397-4d66-a356-2893bc4a414f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/clientCrm_web.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/http-kit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/topAdvertisementApi.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/static/js/topAdvertisementApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/item/CrmWebApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/item/CrmWebApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/customerlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/customerlist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/manager.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/manager.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/item/config/MyMvcConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/item/config/MyMvcConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/customer/customerlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/customer/customerlist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/manager.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/manager.html" afterDir="false" />
-    </list>
+    <list default="true" id="4ab62c77-8397-4d66-a356-2893bc4a414f" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -259,12 +244,20 @@
       <workItem from="1571353993566" duration="24284000" />
       <workItem from="1571618878033" duration="37013000" />
       <workItem from="1571748214666" duration="293000" />
-      <workItem from="1571749109704" duration="240000" />
+      <workItem from="1571749109704" duration="526000" />
     </task>
+    <task id="LOCAL-00001" summary="Merge branch 'dev'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;target/classes/com/item/config/MyMvcConfig.class&#10;#&#9;target/classes/templates/customer/customerlist.html">
+      <created>1571749600582</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1571749600582</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80547000" />
+    <option name="totallyTimeSpent" value="80833000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -278,7 +271,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.20845272" />
       <window_info id="Structure" order="1" sideWeight="0.50120485" side_tool="true" weight="0.20801815" />
@@ -320,6 +312,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge branch 'dev'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;target/classes/com/item/config/MyMvcConfig.class&#10;#&#9;target/classes/templates/customer/customerlist.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'dev'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;target/classes/com/item/config/MyMvcConfig.class&#10;#&#9;target/classes/templates/customer/customerlist.html" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/moment.js" />
