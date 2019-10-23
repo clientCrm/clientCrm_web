@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4ab62c77-8397-4d66-a356-2893bc4a414f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/clientCrm_web.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/http-kit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/topAdvertisementApi.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/static/js/topAdvertisementApi.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/templates/customer/customerlist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/customer/customerlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/customer/customerlist.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/manager.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/manager.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/item/config/MyMvcConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/item/config/MyMvcConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/common/work/managerAside.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/common/work/managerAside.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/manager.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/manager.html" afterDir="false" />
-    </list>
+    <list default="true" id="4ab62c77-8397-4d66-a356-2893bc4a414f" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,6 +13,16 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-850303463">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FavoritesManager">
     <favorites_list name="clientCrm_web" />
   </component>
@@ -37,7 +31,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-391">
+            <state relative-caret-position="506">
               <caret line="22" column="62" selection-start-line="22" selection-start-column="62" selection-end-line="22" selection-end-column="62" />
             </state>
           </provider>
@@ -46,7 +40,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/customer/customerlist.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="74">
+            <state relative-caret-position="1311">
               <caret line="57" column="37" selection-start-line="57" selection-start-column="37" selection-end-line="57" selection-end-column="37" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#el-col#1;n#el-row#0;n#div#0;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -55,12 +49,6 @@
                 <element signature="n#style#0;n#el-table#0;n#template#0;n#div#0;n#el-card#0;n#div#1;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#i#0;n#template#0;n#el-table-column#1;n#el-table#0;n#template#0;n#div#0;n#el-card#0;n#div#1;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#el-form#0;n#el-row#0;n#el-dialog#0;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="e#15411#15911#0" />
-                <element signature="e#16475#16660#0" />
-                <element signature="e#16725#16993#0" />
-                <element signature="e#17056#17637#0" />
-                <element signature="e#17698#18285#0" />
-                <element signature="e#18308#18324#0" />
               </folding>
             </state>
           </provider>
@@ -69,7 +57,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/http-kit.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
+            <state relative-caret-position="345">
               <caret line="16" column="3" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
@@ -81,7 +69,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/topAdvertisementApi.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
+            <state relative-caret-position="207">
               <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
             </state>
           </provider>
@@ -99,7 +87,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/item/config/MyMvcConfig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
+            <state relative-caret-position="253">
               <caret line="13" column="69" selection-start-line="13" selection-start-column="62" selection-end-line="13" selection-end-column="69" />
             </state>
           </provider>
@@ -139,11 +127,17 @@
       </list>
     </option>
   </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="E:/ruanjian/apache-maven-3.5.4" />
-        <option name="userSettingsFile" value="E:\ruanjian\apache-maven-3.5.4\conf\settings.xml" />
+        <option name="mavenHome" value="G:/apche-maven/apache-maven/apache-maven-3.5.2" />
+        <option name="userSettingsFile" value="G:\apche-maven\apache-maven\apache-maven-3.5.2\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
     <option name="importingSettings">
@@ -162,8 +156,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -210,6 +202,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -220,7 +214,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../myboot" />
+    <property name="last_opened_file_path" value="G:/myboot" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
@@ -266,16 +260,17 @@
       <workItem from="1571274087755" duration="18180000" />
       <workItem from="1571353993566" duration="24284000" />
       <workItem from="1571618878033" duration="37013000" />
+      <workItem from="1571819195138" duration="35000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79477000" />
+    <option name="totallyTimeSpent" value="79512000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <frame x="-9" y="-9" width="1378" height="738" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.20845272" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49879518" visible="true" weight="0.20782208" />
       <window_info id="Structure" order="1" sideWeight="0.50120485" side_tool="true" weight="0.20801815" />
       <window_info id="Designer" order="2" />
       <window_info id="JRebel" order="3" side_tool="true" />
@@ -297,10 +292,11 @@
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" />
-      <window_info anchor="bottom" id="Database Changes" order="13" />
+      <window_info anchor="bottom" id="Database Changes" order="13" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="14" weight="0.083606556" />
       <window_info anchor="bottom" id="JRebel Executor" order="15" />
       <window_info anchor="bottom" id="JRebel Console" order="16" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -315,6 +311,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/common/work/managerAside.html">
@@ -358,26 +357,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-391">
+        <state relative-caret-position="506">
           <caret line="22" column="62" selection-start-line="22" selection-start-column="62" selection-end-line="22" selection-end-column="62" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/item/config/MyMvcConfig.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/customer/customerlist.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="13" column="69" selection-start-line="13" selection-start-column="62" selection-end-line="13" selection-end-column="69" />
+        <state relative-caret-position="1311">
+          <caret line="57" column="37" selection-start-line="57" selection-start-column="37" selection-end-line="57" selection-end-column="37" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#el-col#1;n#el-row#0;n#div#0;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#div#1;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#style#0;n#el-card#0;n#div#1;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#el-table#0;n#template#0;n#div#0;n#el-card#0;n#div#1;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#i#0;n#template#0;n#el-table-column#1;n#el-table#0;n#template#0;n#div#0;n#el-card#0;n#div#1;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#el-form#0;n#el-row#0;n#el-dialog#0;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/http-kit.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
+        <state relative-caret-position="345">
           <caret line="16" column="3" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
@@ -387,29 +394,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/topAdvertisementApi.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
+        <state relative-caret-position="207">
           <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/customer/customerlist.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/item/config/MyMvcConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="74">
-          <caret line="57" column="37" selection-start-line="57" selection-start-column="37" selection-end-line="57" selection-end-column="37" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#el-col#1;n#el-row#0;n#div#0;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#div#1;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#style#0;n#el-card#0;n#div#1;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#el-table#0;n#template#0;n#div#0;n#el-card#0;n#div#1;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#i#0;n#template#0;n#el-table-column#1;n#el-table#0;n#template#0;n#div#0;n#el-card#0;n#div#1;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#el-form#0;n#el-row#0;n#el-dialog#0;n#div#0;n#el-main#0;n#el-container#0;n#el-container#0;n#el-container#0;n#div#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="e#15411#15911#0" />
-            <element signature="e#16475#16660#0" />
-            <element signature="e#16725#16993#0" />
-            <element signature="e#17056#17637#0" />
-            <element signature="e#17698#18285#0" />
-            <element signature="e#18308#18324#0" />
-          </folding>
+        <state relative-caret-position="253">
+          <caret line="13" column="69" selection-start-line="13" selection-start-column="62" selection-end-line="13" selection-end-column="69" />
         </state>
       </provider>
     </entry>
