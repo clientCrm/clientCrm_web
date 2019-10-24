@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="clientCrm_web" />
         <module name="crm_web" />
+        <module name="clientCrm_web" />
       </profile>
     </annotationProcessing>
   </component>
