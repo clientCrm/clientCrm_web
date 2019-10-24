@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>产品列表</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="base/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="base/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/common.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="../../static/js/topAdvertisementApi.js"></script>
+
+    <!--    <script src="base/plugins/jquery/jquery.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <!--<script src=”https://unpkg.com/axios/dist/axios.min.js”></script>-->
+    <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+    <!--引入QS-->
+    <script src="https://cdn.bootcss.com/qs/6.5.1/qs.min.js"></script>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div id="app">
+
+    <el-container>
+        <el-header>
+            <div th:replace="~{common/navbar::navbar}"></div>
+        </el-header>
+        <el-container>
+            <el-aside width="200px">
+                <div th:insert="~{common/work/managerAside::aside}"></div>
+            </el-aside>
+            <el-container>
+                <el-main>
+                    <div id="table1">
+                        <div id="top">
+                            <el-row>
+                                <el-col :span='8'>
+                                    <div style="height: 53px;margin-top: 10px">产品管理</div>
+                                </el-col>
+                                <el-col :span='8'>
+                                    <div style="margin-top: 10px;height: 53px;width: 370px">
+                                        <el-input placeholder="         请输入内容" v-model="input3"
+                                                  class="input-with-select">
+
+                                            <el-button slot="append" icon="el-icon-search"></el-button>
+                                        </el-input>
+                                    </div>
+                                </el-col>
+                                <el-col :span='8'>
+                                    <div style="float:right; margin-top: 10px;height: 53px">
+                                        <el-button type="primary" @click="dialogFormVisible = true">添加产品</el-button>
+                                    </div>
+                                </el-col>
+                            </el-row>
+
+                        </div>
+                        <div id="data">
+                            <el-card class="box-card" style="margin-top: 10px; margin-right: 20px; margin-left: 20px;">
+                                <div id="table">
+                                    <template>
+                                        <el-table :data="customerData" height="400" style="width: 100%" border>
+                                            <el-table-column fixed type="selection" width="45">
+                                            </el-table-column>
+
+                                            <el-table-column fixed prop="index" width="55">
+                                                <template slot="header" slot-scope="scope">
+                                                    <i class="el-icon-s-promotion" style="padding-left: 12px;"></i>
+                                                </template>
+                                                <template slot-scope="scope">&emsp;{{scope.$index+1}}</template>
+                                            </el-table-column>
+                                            <el-table-column fixed prop="customerName" label="产品名称" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="updateTime" label="产品类别" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="cusLevel" label="产品编码">
+                                            </el-table-column>
+                                            <el-table-column prop="ownName" label="是否上架" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="followUp" label="单位" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="remarks" label="标准价格" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="industry" label="创建人" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="createName" label="创建时间" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="createTime" label="创建时间" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="mobile" label="负责人" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="mobile" label="备注" width="180">
+                                            </el-table-column>
+                                        </el-table>
+                                    </template>
+                                </div>
+                                <div class="block">
+                                    <el-pagination
+                                            @size-change="handleSizeChange"
+                                            @current-change="handleCurrentChange"
+                                            :current-page="currentPage4"
+                                            :page-sizes="[10, 20, 30, 40]"
+                                            :page-size="10"
+                                            layout="total, sizes, prev, pager, next, jumper"
+                                            :total="total">
+                                    </el-pagination>
+                                </div>
+                            </el-card>
+                        </div>
+                        <el-dialog title="添加产品" :visible.sync="dialogFormVisible">
+                            <el-row :span="17">
+                                <p>基本信息</p>
+                                <el-form ref="form" :model="customer" label-width="80px">
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="产品名称">
+                                                    <el-input v-model="customer.customer_name" name="customer_name"
+                                                               placeholder="产品名称"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="产品类别">
+                                                    <el-select v-model="customer.cus_level" placeholder="请选择">
+                                                        <el-option label="是" value="1"></el-option>
+                                                        <el-option label="否" value="2"></el-option>
+                                                    </el-select>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+
+                                    </el-row>
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="产品编码">
+                                                    <el-input v-model="customer.mobile" placeholder="产品编码"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="是否上架">
+                                                    <el-select v-model="customer.cus_level" placeholder="请选择">
+                                                        <el-option label="上架" value="1"></el-option>
+                                                        <el-option label="下架" value="2"></el-option>
+                                                    </el-select>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="单位">
+                                                    <el-select v-model="customer.cus_level" placeholder="请选择">
+                                                        <el-option label="箱" value="1"></el-option>
+                                                        <el-option label="枚" value="2"></el-option>
+                                                        <el-option label="盒" value="3"></el-option>
+                                                        <el-option label="台" value="4"></el-option>
+                                                        <el-option label="吨" value="5"></el-option>
+                                                        <el-option label="千克" value="6"></el-option>
+                                                        <el-option label="只" value="7"></el-option>
+                                                        <el-option label="把" value="8"></el-option>
+                                                    </el-select>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="标准价格（元）">
+                                                    <el-input v-model="customer.mobile" placeholder="产品编码"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="数量">
+                                                    <el-input v-model="customer.mobile" placeholder="数量"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="产品描述">
+                                                    <el-input v-model="customer.telephone"
+                                                              placeholder="产品描述"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                </el-form>
+                            </el-row>
+                            <div slot="footer" class="dialog-footer">
+                                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                                <el-button type="primary" @click="addCommit">确 定</el-button>
+                            </div>
+                        </el-dialog>
+
+                    </div>
+                </el-main>
+            </el-container>
+        </el-container>
+    </el-container>
+</div>
+</body>
+<script>
+
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                input3:'',//搜索框的值
+                currentPage4:1,//分页部分的当前页
+                total: '',
+                customerData: [{
+                    customer_name: '',
+                    follow_up: '',
+                    cus_level: '',
+                    industry: '',
+                    charge_man: '',
+                    create_man: '',
+                    source: '',
+                    detail_address: '',
+                    create_time: '',
+                    update_time: '',
+                    next_time: '',
+                    remarks: '',
+                    mobile: '',
+                    telephone: ''
+                }
+                ],
+                dialogFormVisible: false,//默认隐藏添加联系人框
+                customer: {
+                    customer_name: '',
+                    mobile: '',
+                    telephone: '',
+                    detail_address: '',
+                    industry: '',
+                    next_time: '',
+                    source: '',
+                    cus_level: '',
+                    remarks: '',
+                    create_user_id: ''
+                },
+                formLabelWidth: '120px',
+            }
+        },
+        methods: {
+            indexMethod() {
+
+            },
+            addCommit() {
+                const _this = this;
+                $.ajax({
+                    url: "http://www.clientest.com/kehu/customerController/customer",
+                    data: JSON.stringify(this.customer),
+                    type: "POST",
+                    dataType: "JSON",
+                    contentType: 'application/json; charset=UTF-8',
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+                this.dialogFormVisible = false;
+            },
+
+        },
+        mounted() {
+            const _this = this; //将全局this赋值给axios中的变量（在axios中使用全局this）
+            axios
+                .get('http://www.clientest.com/kehu/customerController/customer?pageNum=1&pageSize=10')
+
+                .then(response => {
+                    _this.customerData = response.data.list,
+                        _this.total = response.data.total
+                })
+                .catch(function (error) { // 请求失败处理
+                    console.log(error);
+                });
+        },
+
+    })
+</script>
+
+</html>
