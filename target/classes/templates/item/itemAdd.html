@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>项目管理</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="//unpkg.com/element-ui@2.12.0/lib/index.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="base/plugins/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="base/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="base/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/aside.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div id="app">
+    <el-container>
+        <el-header >
+            <div th:replace ="~{common/navbar::navbar}"></div>
+        </el-header>
+        <el-container>
+            <el-aside width="200px"><div th:insert="~{item/aside::aside}" ></div></el-aside>
+            <el-main>
+                <el-card class="box-card" style="margin-top: 10px; margin-right: 20px; margin-left: 20px;">
+                    <div slot="header" class="clearfix">
+                        <span>创建项目</span>
+                        <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                    </div>
+                    <el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm">
+                        <el-form-item label="项目名称" prop="itemName" >
+                            <el-input v-model="form.itemName" placeholder="请输入项目名"></el-input>
+                            <el-row v-model="form.colour">
+                                <el-button type="primary" size="mini" circle></el-button>
+                                <el-button type="success" size="mini" circle></el-button>
+                                <el-button type="info"    size="mini" circle></el-button>
+                                <el-button type="warning" size="mini" circle></el-button>
+                                <el-button type="danger"  size="mini" circle></el-button>
+                            </el-row>
+                        </el-form-item>
+
+                        <el-form-item label="项目描述" >
+                            <el-input type="textarea" v-model="form.idescribe" placeholder="请输入内容"></el-input>
+                        </el-form-item>
+                        <el-form-item label="可见范围" prop="scope">
+                            <el-select v-model="form.scope" placeholder="请选择项目可见范围">
+                                <el-option label="私有：只有加入成员才能看到此项目" value="0"></el-option>
+                                <el-option label="公开：企业所有成员都能看到此项目" value="1"></el-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item label="项目成员" prop="member">
+                            <template>
+                                <div class="demo-type">
+                                    <div>
+<!--                                        <el-avatar src="img/kk.png"></el-avatar>-->
+                                        <el-avatar :key="index"
+                                            v-for="(tag,index) in form.member"
+                                            closable
+                                            :disable-transitions="false"
+                                            @close="handleClose(tag)"
+                                            :src="tag.img">
+                                        </el-avatar>
+                                        <span style="background: #fff" class="el-avatar el-avatar--circle">
+                                            <el-button style="" icon="el-icon-plus" size="small" @click="open=true" circle></el-button>
+                                            <el-button icon="el-icon-plus" size="small" @click="open=true" circle></el-button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </template>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('form')">立即创建</el-button>
+                            <el-button @click="resetForm('form')">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+
+                    <!--打开弹框，显示要添加的成员-->
+                    <el-dialog title="选择成员" :visible.sync="open">
+                        <template>
+                                <!--<p style="text-align: center; margin: 50px 0 20px">使用 scoped-slot 自定义数据项</p>-->
+                                <div style="text-align: center">
+                                    <!--
+                                    ----    filterable 搜索框
+                                    ----    :data      左侧绑定值
+                                    ----    v-model    右侧绑定值
+                                    ----    :left-default-checked   :right-default-checked 左右默认勾选
+                                    ----    :titles  自定义列表标题
+                                    ----    :format列表顶部勾选状态
+                                    -->
+                                    <el-transfer
+                                            style="text-align: left; display: inline-block"
+                                            v-model="value"
+                                            filterable
+                                            :left-default-checked="[]"
+                                            :right-default-checked="[1]"
+                                            :titles="['员工', '已选择']"
+                                            :format="{
+                                                noChecked: '${total}',
+                                                hasChecked: '${checked}/${total}'
+                                            }"
+                                            @change="handleChange"
+                                            :data="data">
+                                        <span slot-scope="{ option }">{{ option.key }} - {{ option.label }}</span>
+                                    </el-transfer>
+                                </div>
+                            </template>
+                        <div slot="footer" class="dialog-footer">
+                            <el-button @click="open = false">取 消</el-button>
+                            <el-button type="primary" @click="addCommit">确 定</el-button>
+                        </div>
+                    </el-dialog>
+
+                    <!--后期修改用-->
+                    <!--<el-radio-group v-model="labelPosition" size="small">
+                        <el-radio-button label="left">左对齐</el-radio-button>
+                        <el-radio-button label="right">右对齐</el-radio-button>
+                        <el-radio-button label="top">顶部对齐</el-radio-button>
+                    </el-radio-group>
+                    <div style="margin: 20px;"></div>
+                    <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
+                        <el-form-item label="名称">
+                            <el-input v-model="formLabelAlign.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="活动区域">
+                            <el-input v-model="formLabelAlign.region"></el-input>
+                        </el-form-item>
+                        <el-form-item label="活动形式">
+                            <el-input v-model="formLabelAlign.type"></el-input>
+                        </el-form-item>
+                    </el-form>-->
+                </el-card>
+            </el-main>
+
+        </el-container>
+    </el-container>
+</div>
+</body>
+
+<script>
+    var Main = {
+        data() {
+            const generateData = _ => {
+                const data = [];
+                //发送请求获取员工数据
+                const user=[
+                    {
+                        key:1,
+                        id:1,
+                        label:"kk",
+                        img:"img/kk.png"
+                    },
+                    {
+                        key:2,
+                        id:2,
+                        label:"123",
+                        img:"img/kk.png"
+                    },
+                    {
+                        key:3,
+                        id:3,
+                        label:"gg",
+                        img:"img/kk.png"
+                    }
+                ];
+                $.each(user,function (i,n) {
+                    data.push(user[i]);
+                })
+
+                return data;
+            };
+            const memberData = _ => {
+                const data = [];
+                //请求获取当前员工数据
+                const user=[
+                    {
+                        id:"",
+                        img:"img/kk.png"
+                    }
+                ];
+                $.each(user,function (i,n) {
+                    data.push(user[i]);
+                })
+                return data;
+            };
+            return {
+                test:'img/kk.png',
+                //用户个人信息
+                user:{
+                    id:"",
+                    img:"img/kk.png"
+                },
+                //表单数据
+                form: {
+                    itemName: '',
+                    idescribe: '',
+                    scope: '', //可见范围,
+                    // member:memberData(),//项目成员
+                    member:[
+                        {
+                            id:"",
+                            img:"img/kk.png"
+                        }
+                    ],//项目成员
+                    sort: '0', //是否归档
+                    type: '1', //是否删除
+                    createTime: ''
+                },
+                labelPosition: 'right',
+                formLabelAlign: {
+                    name: '',
+                    region: '',
+                    type: ''
+                },
+                rules: {
+                    itemName: [
+                        { required: true, message: '请输入项目名称', trigger: 'blur' },
+                        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                    ],
+                    scope: [
+                        { required: true, message: '请选择可见范围', trigger: 'change' }
+                    ],
+                    /*date1: [
+                        { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                    ],
+                    date2: [
+                        { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+                    ],
+                    type: [
+                        { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+                    ],
+                    resource: [
+                        { required: true, message: '请选择活动资源', trigger: 'change' }
+                    ],*/
+                    idescribe: [
+                        { required: true, message: '请填写项目描述', trigger: 'blur' }
+                    ]
+                },
+                //成员头像
+                inputVisible: false,
+                inputValue: '',
+                //成员弹框
+                open: false,
+                //穿梭框
+                data: generateData(),
+                value: [1],
+            };
+        },
+        methods: {
+            // 提交表单方法
+            submitForm(form) {
+                this.$refs[form].validate((valid) => {
+                    if (valid) {
+                        // alert('submit!');
+                        $.ajax({
+                            type:'POST',
+                            url:'http://localhost:8086/item/test',
+                            contentType: 'application/json',
+                            dataType:'json',
+                            data: JSON.stringify(this.form),
+                            success:function (req) {
+                            }
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            //重置表单
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            //成员头像方法
+            handleClose(tag) {
+                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+            },
+
+            showInput() {
+                this.inputVisible = true;
+                this.$nextTick(_ => {
+                    this.$refs.saveTagInput.$refs.input.focus();
+                });
+            },
+
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                    this.dynamicTags.push(inputValue);
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+            },
+            //添加项目成员确认
+            addCommit(){
+                const value=this.value;
+                const data=this.data;
+                const member=[];
+                member.push(this.user);
+                this.form.member=[];
+                $.each(value,function (i,v) {
+                    $.each(data,function (index,user) {
+                        if(index+1==v){
+                            member.push(user);
+                        }
+                    })
+                });
+                this.form.member=member;
+                this.open=false;
+            },
+            //穿梭框方法
+            handleChange(value, direction, movedKeys){
+                // console.log("穿梭框方法====="+value,"======" +direction, "======"+movedKeys);
+            }
+        }
+    }
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+</script>
+
+</html>

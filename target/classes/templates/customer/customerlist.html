@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>客户列表</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="base/plugins/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="base/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="base/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div id="app">
+
+    <el-container>
+        <el-header >
+            <div th:replace ="~{common/navbar::navbar}"></div>
+        </el-header>
+        <el-container>
+            <el-aside width="200px"><div th:insert="~{common/work/managerAside::aside}" ></div></el-aside>
+            <el-container>
+                <el-main>
+                    <div id="table1">
+                        <div id="top" >
+                            <el-row>
+                                <el-col :span='8'>
+                                    <div style="height: 53px;margin-top: 10px">客户管理</div>
+                                </el-col>
+                                <el-col :span='8'>
+                                    <div style="margin-top: 10px;height: 53px">
+                                        <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
+                                            <el-select v-model="select" slot="prepend" placeholder="请选择">
+                                                <el-option label="餐厅名" value="1"></el-option>
+                                                <el-option label="订单号" value="2"></el-option>
+                                                <el-option label="用户电话" value="3"></el-option>
+                                            </el-select>
+                                            <el-button slot="append" icon="el-icon-search"></el-button>
+                                        </el-input>
+                                    </div>
+                                </el-col>
+                                <el-col :span='8'>
+                                    <div style="float:right; margin-top: 10px;height: 53px">
+                                        <el-button type="primary" @click="dialogFormVisible = true">添加客户</el-button>
+                                    </div>
+                                </el-col>
+                            </el-row>
+
+                        </div>
+                        <div id="data" >
+                            <el-card class="box-card" style="margin-top: 10px; margin-right: 20px; margin-left: 20px;">
+                                <div id="table">
+                                    <template>
+                                        <el-table :data="customerData" height="400" style="width: 100%" border>
+                                            <el-table-column fixed type="selection" width="55">
+                                            </el-table-column>
+                                            <el-table-column fixed type="index" :index="indexMethod">
+                                            </el-table-column>
+                                            <el-table-column fixed prop="customerName" label="客户名称" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="updateTime" label="更新时间" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="cusLevel" label="客户级别">
+                                            </el-table-column>
+                                            <el-table-column prop="ownName" label="负责人" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="followUp" label="成交状态" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="remarks" label="备注" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="industry" label="客户行业" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="createName" label="创建人" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="createTime" label="创建时间" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="mobile" label="手机" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="source" label="客户来源" width="180">
+                                            </el-table-column>
+                                        </el-table>
+                                    </template>
+                                </div>
+                                <div class="block">
+                                    <el-pagination
+                                            @size-change="handleSizeChange"
+                                            @current-change="handleCurrentChange"
+                                            :current-page="currentPage4"
+                                            :page-sizes="[100, 200, 300, 400]"
+                                            :page-size="100"
+                                            layout="total, sizes, prev, pager, next, jumper"
+                                            :total="400">
+                                    </el-pagination>
+                                </div>
+                            </el-card>
+                        </div>
+                        <el-dialog title="添加客户" :visible.sync="dialogFormVisible">
+                            <el-row :span="20">
+                                <p>基本信息</p>
+                                <el-form ref="form" :model="customer" label-width="80px">
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="客户名称">
+                                                    <el-input v-model="customer.customerName" placeholder="客户名称"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="客户级别">
+                                                    <el-select v-model="customer.cusLevel" placeholder="请选择客户级别">
+                                                        <el-option label="重要客户" value="shanghai"></el-option>
+                                                        <el-option label="普通客户" value="beijing"></el-option>
+                                                        <el-option label="非签约客户" value="beijing"></el-option>
+                                                    </el-select>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+
+                                    <el-row :gutter="24">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="客户来源">
+                                                    <el-select v-model="customer.source" placeholder="请选择客户来源">
+                                                        <el-option label="广告" value="shanghai"></el-option>
+                                                        <el-option label="网络" value="beijing"></el-option>
+                                                    </el-select>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="客户行业">
+                                                    <el-select v-model="customer.industry" placeholder="请选择客户行业">
+                                                        <el-option label="it互联网" value="shanghai"></el-option>
+                                                        <el-option label="金融" value="beijing"></el-option>
+                                                    </el-select>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+
+                                    </el-row>
+
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="电话号码">
+                                                    <el-input v-model="customer.mobile"  placeholder="电话号码"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="手机号码">
+                                                    <el-input v-model="customer.telephone" placeholder="手机号码"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+
+                                    <el-row :gutter="20">
+                                        <el-col :span="24">
+                                            <div class="grid-content">
+                                                <el-form-item label="下次联系">
+                                                    <el-date-picker v-model="customer.nextTime" type="datetime" placeholder="选择日期时间">
+                                                    </el-date-picker>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+
+                                    </el-row>
+                                    <el-row :gutter="20">
+                                        <el-col :span="24">
+                                            <div class="grid-content">
+                                                <el-form-item label="地址" >
+                                                    <el-input v-model="customer.detailAdress" placeholder="联系地址"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+
+                                    </el-row>
+                                    <el-row :gutter="20">
+                                        <el-col :span="24">
+                                            <div class="grid-content">
+                                                <el-form-item label="备注" >
+                                                    <el-input v-model="customer.remarks" placeholder="联系地址"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+
+                                    </el-row>
+                                </el-form>
+                            </el-row>
+                            <div slot="footer" class="dialog-footer">
+                                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                            </div>
+                        </el-dialog>
+                    </div>
+                </el-main>
+                <el-footer>
+                    <div th:insert="~{common/footer::footer}"></div>
+                </el-footer>
+            </el-container>
+        </el-container>
+    </el-container>
+</div>
+</body>
+
+<script >
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                customerData:[{
+                    customerName:'悟空',
+                    mobile:'0667998',
+                    telephone:'13202919862',
+                    industry:'金融行业',
+                    source:'广告',
+                    cusLevel:'重点客户',
+                    createTime:'2019-10-2',
+                    updateTime:'2019-10-3',
+                    followUp:'未跟进',
+                    nextTime:'2019-10-4',
+                    ownName:'悟空',
+                    createName:'悟空',
+                    remarks:''
+                },
+                    {
+                        customerName:'悟空',
+                        mobile:'0667998',
+                        telephone:'13202919862',
+                        industry:'金融行业',
+                        source:'广告',
+                        cusLevel:'重点客户',
+                        createTime:'2019-10-2',
+                        updateTime:'2019-10-3',
+                        followUp:'未跟进',
+                        nextTime:'2019-10-4',
+                        ownName:'悟空',
+                        createName:'悟空',
+                        remarks:''
+                    },
+                    {
+                        customerName:'悟空',
+                        mobile:'0667998',
+                        telephone:'13202919862',
+                        industry:'金融行业',
+                        source:'广告',
+                        cusLevel:'重点客户',
+                        createTime:'2019-10-2',
+                        updateTime:'2019-10-3',
+                        followUp:'未跟进',
+                        nextTime:'2019-10-4',
+                        ownName:'悟空',
+                        createName:'悟空',
+                        remarks:''
+                    }],
+                dialogFormVisible: false,
+                customer: {
+                    customerName: '',
+                    mobile: '',
+                    telephone: '',
+                    detailAddress: '',
+                    industry: '',
+                    nextTime:'',
+                    source:'',
+                    cusLevel:'',
+                    remarks:''
+                },
+                formLabelWidth: '120px'
+            }
+        },
+        methods:{
+            indexMethod(){
+
+            }
+        }
+    })
+</script>
+
+</html>
