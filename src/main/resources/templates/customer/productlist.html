@@ -206,9 +206,6 @@
 
                     </div>
                 </el-main>
-                <!--<el-footer>-->
-                    <!--<div th:insert="~{common/footer::footer}"></div>-->
-                <!--</el-footer>-->
             </el-container>
         </el-container>
     </el-container>
@@ -254,64 +251,9 @@
                     create_user_id: ''
                 },
                 formLabelWidth: '120px',
-                dialogTableVisible:false, //默认隐藏添加客户弹出框
-                inputVisible:true,
-                inputValue:'',
-                tableData3:[],          //这是客户列表数据
-                dynamicTags:[],         //存储标签
             }
         },
         methods: {
-            formatFollowUp: function (row, column, cellValue) {
-                if (cellValue == "1") {
-                    return '已跟进';
-                } else if (cellValue == "0") {
-                    return '未跟进';
-                }
-            },
-            formatCus_level: function (row, column, cellValue) {
-                if (cellValue == "1") {
-                    return '重要客户';
-                } else if (cellValue == "2") {
-                    return '普通客户';
-                } else if (cellValue == "3") {
-                    return '非签约客户';
-                }
-            },
-            formatIndustry: function (row, column, cellValue) {
-                if (cellValue == "1") {
-                    return 'it互联网';
-                } else if (cellValue == "2") {
-                    return '金融';
-                } else if (cellValue == "3") {
-                    return '房地产';
-                } else if (cellValue == "4") {
-                    return '商业服务';
-                } else if (cellValue == "5") {
-                    return '贸易';
-                } else if (cellValue == "6") {
-                    return '文化传媒';
-                } else if (cellValue == "7") {
-                    return '其他';
-                }
-            },
-            formatSource: function (row, column, cellValue) {
-                if (cellValue == "1") {
-                    return '广告宣传';
-                } else if (cellValue == "2") {
-                    return '线上注册';
-                } else if (cellValue == "3") {
-                    return '个人资源';
-                } else if (cellValue == "4") {
-                    return '企业资源';
-                } else if (cellValue == "5") {
-                    return '预约上门';
-                } else if (cellValue == "6") {
-                    return '电话咨询';
-                } else if (cellValue == "7") {
-                    return '邮件咨询';
-                }
-            },
             indexMethod() {
 
             },
@@ -332,63 +274,6 @@
                 })
                 this.dialogFormVisible = false;
             },
-            //打开客户列表，查出客户信息
-            showInput(){
-                this.inputVisible=true;
-                this.inputValue='';
-                this.dialogTableVisible=true;//打开客户列表
-                this.customer={};
-                let resdata = [{
-                    id: 44,
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },{
-                    id: 89,
-                    date: '2016-05-02',
-                    name: '李四',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    id: 23,
-                    date: '2016-05-04',
-                    name: '张三',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                },{
-                    id: 88,
-                    date: '2016-05-07',
-                    name: '王五',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }];
-                resdata.forEach(item => {
-                    item.checked = false
-                });
-                this.tableData3 = resdata;
-            },
-            //保存所选取的客户
-            save(){
-                this.inputVisible=false ;
-                //关闭模态框
-                this.dialogTableVisible=false;
-            },
-            //复选框监听事件
-            handleSelectionChange(row){
-                this.tableData3.forEach(item => {
-                    // 排他,每次选择时把其他选项都清除
-                    if (item.id !== row.id) {
-                        item.checked = false
-                    }else{
-                        this.dynamicTags=[{
-                            name:item.name
-                        }]
-                        this.inputValue=item.name;
-                    }
-                })
-            },
-            handleClose(tag){
-                this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1); //删除当前标签
-                this.inputVisible=true;
-                this.inputValue='';
-            }
 
         },
         mounted() {
