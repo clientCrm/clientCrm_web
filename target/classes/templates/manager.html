@@ -25,7 +25,13 @@
         <el-container>
             <el-aside width="200px"><div th:insert="~{common/work/managerAside::aside}" ></div></el-aside>
             <el-container>
-                <el-main>Main</el-main>
+                <el-main>Main22 <br>
+                    <form th:action="@{/customerController/customer}" method="get">
+                        <input type="text" name="pageNum" placeholder="當前頁">
+                        <input type="text" name="pageSize" placeholder="每頁顯示條數">
+                        <button type="submit">查詢</button>
+                    </form>
+                </el-main>
                 <el-footer>
                     <div th:insert="~{common/footer::footer}"></div>
                 </el-footer>
