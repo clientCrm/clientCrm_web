@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>任务</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="base/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="base/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/common.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="/topAdvertisementApi.js"></script>
+
+    <!--    <script src="base/plugins/jquery/jquery.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <!--<script src=”https://unpkg.com/axios/dist/axios.min.js”></script>-->
+    <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+    <!--引入QS-->
+    <script src="https://cdn.bootcss.com/qs/6.5.1/qs.min.js"></script>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div id="app">
+    <el-container>
+        <el-header >
+            <div th:replace ="~{common/navbar::navbar}"></div>
+        </el-header>
+        <el-container>
+            <el-aside width="200px"><div th:insert="~{common/work/aside::aside}" ></div></el-aside>
+            <el-container>
+                <el-main>
+                    <el-row>
+                        <el-col :span="20">
+                            <el-header>
+                                <div class="line" ></div>
+                                <el-menu :default-active="activeIndex2"
+                                         class="el-menu-demo"
+                                         mode="horizontal"
+                                         @select="selectItems"
+                                         background-color="#fffff0"
+                                         text-color="#54544c"
+                                         active-text-color="#0088ff">
+                                    <el-menu-item index="1">我的任务</el-menu-item>
+                                    <el-menu-item index="2">我下属的任务</el-menu-item>
+                                </el-menu>
+                            </el-header>
+                        </el-col>
+                        <el-button type="primary" >新建任务</el-button>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="8">
+                            <div style="margin-top: 5px;height: 53px">
+                                <el-input placeholder="搜索任务名称" v-model="input3" >
+                                    <!--                            <el-select v-model="select" slot="prepend" placeholder="请选择">-->
+                                    <!--                            </el-select>-->
+                                    <el-button slot="append" icon="el-icon-search"></el-button>
+                                </el-input>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+
+                        <el-col :span="2" :offset="2"><span>任务类型</span></el-col>
+
+                        <el-col :span="2" >
+                            <div style="margin-top: 5px;height: 53px">
+                                    <el-select v-model="value" slot="prepend" placeholder="全部" @change="kindCommit">
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.label">
+                                </el-option>
+                                </el-select>
+                            </div>
+                        </el-col>
+                        <el-col :span="1" :offset="1">状态</el-col>
+                        <el-col :span="2">
+                            <div style="margin-top: 5px;height: 53px">
+                                <el-select v-model="value" slot="prepend" placeholder="全部" @change="statusCommit">
+                                    <el-option
+                                            v-for="item in status"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.label">
+                                    </el-option>
+                                </el-select>
+                                </el-input>
+                            </div>
+                        </el-col>
+                        <el-col :span="1" :offset="2"><span>优先级</span></el-col>
+                        <el-col :span="2">
+                            <div style="margin-top: 5px;height: 53px">
+                                <el-select v-model="value" slot="prepend" placeholder="全部" @change="levelCommit">
+                                    <el-option
+                                            v-for="item in level"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.label">
+                                    </el-option>
+                                </el-select>
+                                </el-input>
+                            </div>
+                        </el-col>
+                        <el-col :span="2" :offset="2"><span>截止时间</span></el-col>
+                        <el-col :span="2">
+                            <div style="margin-top: 5px;height: 53px">
+                                <el-select v-model="value" slot="prepend" placeholder="全部" @change="deadlineCommit">
+                                    <el-option
+                                            v-for="item in deadline"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.label">
+                                    </el-option>
+                                </el-select>
+                                </el-input>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-card class="box-card" style="margin-top: 20px; margin-right: 20px; margin-left: 20px;">
+                            <div id="table">
+                                <template>
+                                    <el-table :data="taskData" height="350" style="width: 80%" border>
+                                        <el-table-column fixed type="selection" width="55">
+                                        </el-table-column>
+                                        <el-table-column fixed type="index" :index="indexMethod">
+                                        </el-table-column>
+                                        <el-table-column fixed prop="customerName" label="禁用" width="50">
+                                        </el-table-column>
+                                        <el-table-column prop="taskname" label="任务名称" width="400">
+                                        </el-table-column>
+                                        <el-table-column prop="taskdeadline" label="截止时间">
+                                        </el-table-column>
+                                    </el-table>
+                                </template>
+                            </div>
+                            <div class="block">
+                                <span class="demonstration"></span>
+                                <el-pagination
+                                        @size-change="handleSizeChange"
+                                        @current-change="handleCurrentChange"
+                                        :current-page="currentPage4"
+                                        :page-sizes="[5, 10, 20, 30]"
+                                        :page-size="100"
+                                        layout="total, sizes, prev, pager, next, jumper"
+                                        :total="totalCount">
+                                </el-pagination>
+                            </div>
+                        </el-card>
+                    </el-row>
+                </el-main>
+                <el-footer>
+                    <div th:insert="~{common/footer::footer}"></div>
+                </el-footer>
+            </el-container>
+        </el-container>
+    </el-container>
+</div>
+</body>
+
+<script >
+    new Vue({
+        el: '#app',
+        methods: {
+            handleSizeChange:function(size) {
+                console.log(size);
+            },
+            handleCurrentChange:function(page) {
+                console.log(page);
+            },
+            selectItems(index){
+                if(index==1){
+                    var item='我的任务';
+                }else
+                    {
+                    var item='我下属的任务';
+                }
+                console.log(item);
+            },
+            // 原本获取任务类型的事件
+            // onselected(selVal){
+            //     console.log(selVal);
+            // },
+            kindCommit(selVal){
+                alert(selVal)
+                $.ajax({
+                    url: "http://www.clientest.com/staffTask/crmTask/selectMyResTask",
+                    data: {id:1,size:size,page:page,taskkind:selVal,index:item},
+                    type: "POST",
+                    dataType: "JSON",
+                    contentType: 'application/json; charset=UTF-8',
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            }
+        },
+
+        data()
+        {
+            return {
+                currentPage:4,   //当前页
+                pageSize:10,      //每页显示数
+                totalCount:100,    //总
+                taskData: [
+                    {
+                        taskname: '王小虎',
+                        taskdeadline: '2019.11.15'
+                    },
+                    {
+                        taskname: '王小虎',
+                        taskdeadline: '2019.11.15'
+                    },
+                    {
+                        taskname: '王小虎',
+                        taskdeadline: '2019.11.15'
+                    }],
+                options:[{
+                    value: '1',
+                    label: '全部'
+                },
+                    {
+                        value: '2',
+                        label: '我负责的'
+                    },
+                    {
+                        value: '3',
+                        label: '我创建的'
+                    },
+                    {
+                        value: '4',
+                        label: '我参与的'
+                    }
+                ],
+
+                status:[{
+                    value: '1',
+                    label: '全部'
+                },
+                    {
+                        value: '2',
+                        label: '正在进行'
+                    },
+                    {
+                        value: '3',
+                        label: '已完成'
+                    },
+                ],
+
+                level:[
+                    {
+                        value: '1',
+                        label: '全部'
+                    },
+                    {
+                        value: '2',
+                        label: '高'
+                    },
+                    {
+                        value: '3',
+                        label: '中'
+                    },
+                    {
+                        value: '4',
+                        label: '低'
+                    },
+                    {
+                        value: '5',
+                        label: '无'
+                    },
+                ],
+
+                deadline:[
+                    {
+                        value: '1',
+                        label: '全部'
+                    },
+                    {
+                        value: '2',
+                        label: '今天到期'
+                    },
+                    {
+                        value: '3',
+                        label: '明天到期'
+                    },
+                    {
+                        value: '4',
+                        label: '一周到期'
+                    },
+                    {
+                        value: '5',
+                        label: '一个月到期'
+                    },
+                ],
+            };
+        }
+    })
+</script>
+
+</html>
