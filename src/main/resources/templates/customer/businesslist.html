@@ -5,22 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>商机列表</title>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="base/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="base/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <link rel="stylesheet" href="css/common.css">
+    <script src=”https://unpkg.com/axios/dist/axios.min.js”></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="../../static/js/topAdvertisementApi.js"></script>
-
-    <!--    <script src="base/plugins/jquery/jquery.min.js"></script>-->
-    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-    <!--<script src=”https://unpkg.com/axios/dist/axios.min.js”></script>-->
-    <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
-    <!--引入QS-->
-    <script src="https://cdn.bootcss.com/qs/6.5.1/qs.min.js"></script>
+    <script src="base/plugins/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="base/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="base/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="css/common.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div id="app">
@@ -52,7 +46,7 @@
                                 </el-col>
                                 <el-col :span='8'>
                                     <div style="float:right; margin-top: 10px;height: 53px">
-                                        <el-button type="primary" @click="dialogFormVisible = true">新建商机</el-button>
+                                        <el-button type="primary" @click="dialogBusiness = true">新建商机</el-button>
                                     </div>
                                 </el-col>
                             </el-row>
@@ -62,7 +56,7 @@
                             <el-card class="box-card" style="margin-top: 10px; margin-right: 20px; margin-left: 20px;">
                                 <div id="table">
                                     <template>
-                                        <el-table :data="customerData" height="450" style="width: 100%" border>
+                                        <el-table :data="businessData" height="450" style="width: 100%" border>
                                             <el-table-column fixed type="selection" width="45">
                                             </el-table-column>
 
@@ -106,15 +100,15 @@
                                 </div>
                             </el-card>
                         </div>
-                        <el-dialog title="添加商机" :visible.sync="dialogFormVisible">
+                        <el-dialog title="添加商机" :visible.sync="dialogBusiness">
                             <el-row :span="17">
                                 <p>基本信息</p>
-                                <el-form ref="form" :model="customer" label-width="80px">
+                                <el-form ref="form" :model="business" label-width="80px">
                                     <el-row :gutter="20">
                                         <el-col :span="12">
                                             <div class="grid-content">
                                                 <el-form-item label="商机名称">
-                                                    <el-input v-model="customer.customer_name" name="customer_name"
+                                                    <el-input v-model="business.name" name="business.name"
                                                               value="" placeholder="商机名称"></el-input>
                                                 </el-form-item>
                                             </div>
@@ -143,7 +137,7 @@
                                         <el-col :span="12">
                                             <div class="grid-content">
                                                 <el-form-item label="商机阶段">
-                                                    <el-select v-model="customer.cus_level" placeholder="请选择">
+                                                    <el-select v-model="business.name" placeholder="请选择">
                                                         <el-option label="赢单" value="1"></el-option>
                                                         <el-option label="输单" value="2"></el-option>
                                                         <el-option label="无效" value="3"></el-option>
@@ -154,7 +148,7 @@
                                         <el-col :span="12">
                                             <div class="grid-content">
                                                 <el-form-item label="商机金额(元)">
-                                                    <el-input v-model="customer.telephone"></el-input>
+                                                    <el-input v-model="business.name"></el-input>
                                                 </el-form-item>
                                             </div>
                                         </el-col>
@@ -163,7 +157,7 @@
                                         <el-col :span="12">
                                             <div class="grid-content">
                                                 <el-form-item label="预计成交日期">
-                                                    <el-date-picker v-model="customer.next_time" type="datetime"
+                                                    <el-date-picker v-model="business.name" type="datetime"
                                                                     placeholder="选择日期时间">
                                                     </el-date-picker>
                                                 </el-form-item>
@@ -172,7 +166,7 @@
                                         <el-col :span="12">
                                             <div class="grid-content">
                                                 <el-form-item label="备注">
-                                                    <el-input v-model="customer.remarks" placeholder="备注"></el-input>
+                                                    <el-input v-model="business.name" placeholder="备注"></el-input>
                                                 </el-form-item>
                                             </div>
                                         </el-col>
@@ -187,10 +181,10 @@
                                 </el-row>
                                 <el-row>
                                 <el-table
-                                        :data="tableData1"
+                                        :data="showProduct"
                                         style="width: 100%">
                                     <el-table-column
-                                            prop="name"
+                                            prop="showProduct.name"
                                             label="产品名称"
                                             width="180">
                                     </el-table-column>
@@ -215,13 +209,13 @@
                                 </el-row>
                             </div>
                             <div slot="footer" class="dialog-footer">
-                                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                                <el-button @click="dialogBusiness = false">取 消</el-button>
                                 <el-button type="primary" @click="addCommit">确 定</el-button>
                             </div>
                         </el-dialog>
                         <!--客户列表-->
-                        <el-dialog title="客户列表" :visible.sync="dialogTableVisible">
-                            <el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark"
+                        <el-dialog title="客户列表" :visible.sync="dialogCustomer">
+                            <el-table ref="multipleTable" :data="customerData" tooltip-effect="dark"
                                       highlight-current-row style="width: 100%"
                                       @current-change="handleSelectionChange">
                                 <el-table-column label="操作" width="55">
@@ -239,13 +233,13 @@
                                 </el-table-column>
                             </el-table>
                             <div slot="footer" class="dialog-footer">
-                                <el-button @click="dialogTableVisible = false">取 消</el-button>
-                                <el-button type="primary" @click="save">确 定</el-button>
+                                <el-button @click="dialogCustomer = false">取 消</el-button>
+                                <el-button type="primary" @click="saveCustomer">确 定</el-button>
                             </div>
                         </el-dialog>
                         <!--产品列表-->
-                        <el-dialog title="产品列表" :visible.sync="dialogTableVisible2">
-                            <el-table ref="multipleTable" :data="tableData2" tooltip-effect="dark"
+                        <el-dialog title="产品列表" :visible.sync="dialogProduct">
+                            <el-table ref="multipleTable" :data="productData" tooltip-effect="dark"
                                       highlight-current-row style="width: 100%"
                                       @current-change="handleSelectionChange2">
                                 <el-table-column label="操作" width="55">
@@ -263,8 +257,8 @@
                                 </el-table-column>
                             </el-table>
                             <div slot="footer" class="dialog-footer">
-                                <el-button @click="dialogTableVisible2 = false">取 消</el-button>
-                                <el-button type="primary" @click="save2">确 定</el-button>
+                                <el-button @click="dialogProduct = false">取 消</el-button>
+                                <el-button type="primary" @click="saveProduct">确 定</el-button>
                             </div>
                         </el-dialog>
 
@@ -300,7 +294,7 @@
                     telephone: ''
                 }],//产品表格数据
                 business: {
-                    customer_name: '',
+                    name: '',
                     mobile: '',
                     telephone: '',
                     detail_address: '',
@@ -321,84 +315,32 @@
                 productData:[],                        //弹出产品列表数据
                 dynamicTags:[],                        //存储客户显示的标签
                 inputBusiness_id:'',                   //存储产品id
+                showProduct:[] ,                       //显示选中产品数据
+                addProduct:[]                          //存储勾选的产品数据
             }
         },
         methods: {
-            formatFollowUp: function (row, column, cellValue) {
-                if (cellValue == "1") {
-                    return '已跟进';
-                } else if (cellValue == "0") {
-                    return '未跟进';
-                }
-            },
-            formatCus_level: function (row, column, cellValue) {
-                if (cellValue == "1") {
-                    return '重要客户';
-                } else if (cellValue == "2") {
-                    return '普通客户';
-                } else if (cellValue == "3") {
-                    return '非签约客户';
-                }
-            },
-            formatIndustry: function (row, column, cellValue) {
-                if (cellValue == "1") {
-                    return 'it互联网';
-                } else if (cellValue == "2") {
-                    return '金融';
-                } else if (cellValue == "3") {
-                    return '房地产';
-                } else if (cellValue == "4") {
-                    return '商业服务';
-                } else if (cellValue == "5") {
-                    return '贸易';
-                } else if (cellValue == "6") {
-                    return '文化传媒';
-                } else if (cellValue == "7") {
-                    return '其他';
-                }
-            },
-            formatSource: function (row, column, cellValue) {
-                if (cellValue == "1") {
-                    return '广告宣传';
-                } else if (cellValue == "2") {
-                    return '线上注册';
-                } else if (cellValue == "3") {
-                    return '个人资源';
-                } else if (cellValue == "4") {
-                    return '企业资源';
-                } else if (cellValue == "5") {
-                    return '预约上门';
-                } else if (cellValue == "6") {
-                    return '电话咨询';
-                } else if (cellValue == "7") {
-                    return '邮件咨询';
-                }
-            },
-            indexMethod() {
-
-            },
             addCommit() {
                 const _this = this;
-                $.ajax({
-                    url: "http://www.clientest.com/kehu/customerController/customer",
-                    data: JSON.stringify(this.customer),
-                    type: "POST",
-                    dataType: "JSON",
-                    contentType: 'application/json; charset=UTF-8',
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                })
+                // $.ajax({
+                //     url: "http://www.clientest.com/kehu/customerController/customer",
+                //     data: JSON.stringify(this.customer),
+                //     type: "POST",
+                //     dataType: "JSON",
+                //     contentType: 'application/json; charset=UTF-8',
+                //     success: function (data) {
+                //         console.log(data);
+                //     },
+                //     error: function (err) {
+                //         console.log(err);
+                //     }
+                // })
                 this.dialogFormVisible = false;
             },
             //打开客户列表，查出客户信息
             showInput(){
-                this.inputVisible=true;
                 this.inputValue='';
-                this.dialogTableVisible=true;//打开客户列表
+                this.dialogCustomer=true;//打开客户列表
                 let resdata = [{
                     id: 44,
                     date: '2016-05-03',
@@ -426,20 +368,20 @@
                 this.customerData = resdata;
             },
             //保存所选取的客户
-            save(){
+            saveCustomer(){
                 this.inputVisible=false ;
                 //关闭模态框
-                this.dialogTableVisible=false;
+                this.dialogCustomer=false;
             },
             //添加客户复选框监听事件
             handleSelectionChange(row){
-                this.tableData3.forEach(item => {
+                this.customerData.forEach(item => {
                     // 排他,每次选择时把其他选项都清除
                     if (item.id !== row.id) {
                         item.checked = false
                     }else{
                         this.dynamicTags=[{
-                            name:item.name
+                            name:item.name,
                         }]
                         this.inputValue=item.name;
                     }
@@ -453,7 +395,7 @@
             },
             //打开添加产品
             openProduct(){
-                this.dialogTableVisible2=true;
+                this.dialogProduct=true;
                 let resdata = [{
                     id:44,
                     price: 44,
@@ -482,19 +424,26 @@
                 resdata.forEach(item => {
                     item.checked = false
                 });
-                this.tableData = resdata;
+                this.productData = resdata;
             },
             //产品列表复选框监听事件
             handleSelectionChange2(row){
-                this.tableData3.forEach(item => {
+                this.productData.forEach(item => {
                     // 排他,每次选择时把其他选项都清除
                     if (item.id !== row.id) {
                         item.checked = false
                     }else{
-                        this.tableData1=item;
+                        this.addProduct=item;
                     }
                 })
             },
+            saveProduct(){
+                this.dialogProduct =false;
+                this.showProduct=[{
+                    name:this.addProduct.name,
+
+                }];
+            }
 
 
         },
