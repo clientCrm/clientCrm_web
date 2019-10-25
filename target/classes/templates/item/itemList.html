@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>项目管理</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="base/plugins/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="base/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="base/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div id="app">
+
+    <el-container>
+        <el-header >
+            <div th:replace ="~{common/navbar::navbar}"></div>
+        </el-header>
+        <el-container>
+            <el-aside width="200px"><div th:insert="~{item/aside::aside}" ></div></el-aside>
+            <el-main>
+                <el-card shadow="hover">
+                <div id="table">
+                    <template>
+                        <el-table :data="item" height="450" style="width: 100%" border>
+                            <el-table-column fixed prop="index" width="55">
+                                <template slot="header" slot-scope="scope">
+                                    <i class="el-icon-s-promotion" style="padding-left: 12px;"></i>
+                                </template>
+                                <template slot-scope="scope">&emsp;{{scope.$index+1}}</template>
+                            </el-table-column>
+                            <el-table-column fixed prop="itemName" label="项目名" width="180"></el-table-column>
+                            <el-table-column fixed prop="itemName" label="项目名" width="180"></el-table-column>
+                            <el-table-column
+                                    fixed="right"
+                                    label="操作"
+                                    width="100">
+                                <template slot-scope="scope">
+                                    <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                                    <el-button type="text" size="small">编辑</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <div class="block">
+                            <el-pagination
+                                    @size-change="handleSizeChange"
+                                    @current-change="handleCurrentChange"
+                                    :current-page="currentPage"
+                                    :page-sizes="[5, 10, 20, 50]"
+                                    :page-size="10"
+                                    layout="total, sizes, prev, pager, next, jumper"
+                                    :total="total">
+                            </el-pagination>
+                        </div>
+                    </template>
+
+
+
+                </div>
+            </el-card>
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+</body>
+
+<script >
+    $(function() {
+        $.ajax({
+            type:'GET',
+            url:'http://localhost:8086/item/getPageByExit',
+            contentType: 'application/json',
+            dataType:'json',
+            data:{
+                sort:"0",
+                type:"1",
+                thisPage:"1",
+                limit:"10",
+            },
+            success:function (req) {
+                console.log(req)
+                var Main = {
+                    data() {
+                        return {
+                            item:req.items,
+                            total:req.total,
+                            currentPage: 1
+                        };
+                    },
+                    methods: {
+                        handleSizeChange(val) {
+                            console.log(`每页 ${val} 条`);
+                        },
+                        handleCurrentChange(val) {
+                            console.log(`当前页: ${val}`);
+                        },
+                        //查看按钮
+                        handleClick(row) {
+                            console.log(row);
+                        }
+                    }
+                };
+                var Ctor = Vue.extend(Main);
+                new Ctor().$mount('#app');
+            }
+        })
+    })
+</script>
+
+</html>
