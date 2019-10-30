@@ -537,11 +537,16 @@
             },
             //保存所选取的客户
             saveCustomer(){
-                this.customerInputVisible=false ;
+                if(this.customerDynamicTags.length!=0){
+                    this.customerInputVisible=false ;
+                    //把添加商机激活
+                    this.disabled=false;
+                }else{
+                    this.customerInputVisible=true;
+                }
                 //关闭模态框
                 this.dialogCustomer=false;
-                //把添加商机激活
-                this.disabled=false;
+
             },
             //添加客户复选框监听事件
             customerSelectionChange(row){
@@ -596,7 +601,11 @@
             },
             //保存所选取的商机
             saveBusiness(){
-                this.businessInputVisible=false ;
+                if(this.businessDynamicTags.length!=0){
+                    this.businessInputVisible=false ;
+                }else{
+                    this.businessInputVisible=true ;
+                }
                 //关闭模态框
                 this.dialogBusiness=false;
             },
@@ -651,7 +660,11 @@
             },
             //保存所选取的签约人
             saveContacts(){
-                this.contactsInputVisible=false ;
+                if(this.contactsDynameicTags.length!=0){
+                    this.contactsInputVisible=false ;
+                }else{
+                    this.contactsInputVisible=true ;
+                }
                 //关闭模态框
                 this.dialogContacts=false;
             },
@@ -705,7 +718,11 @@
             },
             //保存所选取的负责人
             saveStaff(){
-                this.staffInputVisible=false ;
+                if(this.staffDynameicTags.length!=0){
+                    this.staffInputVisible=false ;
+                }else{
+                    this.staffInputVisible=true ;
+                }
                 //关闭模态框
                 this.dialogStaff=false;
             },
