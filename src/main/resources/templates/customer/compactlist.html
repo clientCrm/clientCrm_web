@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>合同列表</title>
+    <script src=”https://unpkg.com/axios/dist/axios.min.js”></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="base/plugins/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link rel="stylesheet" href="base/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="base/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div id="app">
+
+    <el-container>
+        <el-header>
+            <div th:replace="~{common/navbar::navbar}"></div>
+        </el-header>
+        <el-container>
+            <el-aside width="200px">
+                <div th:insert="~{common/work/managerAside::aside}"></div>
+            </el-aside>
+            <el-container>
+                <el-main>
+                    <div id="table1">
+                        <div id="top">
+                            <el-row>
+                                <el-col :span='8'>
+                                    <div style="height: 53px;margin-top: 10px">合同管理</div>
+                                </el-col>
+                                <el-col :span='8'>
+                                    <div style="margin-top: 10px;height: 53px;width: 370px">
+                                        <el-input placeholder="         输入客户名称或电话号码进行查询" v-model="input3"
+                                                  class="input-with-select">
+
+                                            <el-button slot="append" icon="el-icon-search"></el-button>
+                                        </el-input>
+                                    </div>
+                                </el-col>
+                                <el-col :span='8'>
+                                    <div style="float:right; margin-top: 10px;height: 53px">
+                                        <el-button type="primary" @click="dialogCompact = true">新建合同</el-button>
+                                    </div>
+                                </el-col>
+                            </el-row>
+
+                        </div>
+                        <div id="data">
+                            <el-card class="box-card" style="margin-top: 10px; margin-right: 20px; margin-left: 20px;">
+                                <div id="table">
+                                    <template>
+                                        <el-table :data="compactData" height="450" style="width: 100%" border>
+                                            <el-table-column fixed type="selection" width="45">
+                                            </el-table-column>
+
+                                            <el-table-column fixed prop="index" width="55">
+                                                <template slot="header" slot-scope="scope">
+                                                    <i class="el-icon-s-promotion" style="padding-left: 12px;"></i>
+                                                </template>
+                                                <template slot-scope="scope">&emsp;{{scope.$index+1}}</template>
+                                            </el-table-column>
+                                            <el-table-column fixed prop="customerName" label="合同编号" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="updateTime" label="客户名称" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="cusLevel" label="合同金额">
+                                            </el-table-column>
+                                            <el-table-column prop="ownName" label="更新时间" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="remarks" label="负责人" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="followUp" label="下单时间" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="industry" label="合同开始时间" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="createName" label="合同到期时间" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="createTime" label="客户签约人" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="createTime" label="公司签约人" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="createTime" label="合同名称" width="180">
+                                            </el-table-column>
+                                            <el-table-column prop="createTime" label="状态" width="180">
+                                            </el-table-column>
+                                        </el-table>
+                                    </template>
+                                </div>
+                                <div class="block">
+                                    <el-pagination
+                                            @size-change="handleSizeChange"
+                                            @current-change="handleCurrentChange"
+                                            :current-page="currentPage4"
+                                            :page-sizes="[10, 20, 30, 40]"
+                                            :page-size="10"
+                                            layout="total, sizes, prev, pager, next, jumper"
+                                            :total="total">
+                                    </el-pagination>
+                                </div>
+                            </el-card>
+                        </div>
+                        <el-dialog title="添加合同" :visible.sync="dialogCompact">
+                            <el-row :span="17">
+                                <p>基本信息</p>
+                                <el-form ref="form" :model="compact" label-width="100px">
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="合同编号">
+                                                    <el-input v-model="compact.name" name="compact.name"
+                                                              value="" placeholder="合同编号"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="合同名称">
+                                                    <el-input v-model="compact.name" name="compact.name"
+                                                              value="" placeholder="合同名称"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+
+                                    </el-row>
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="客户名称">
+                                                    <div th:width="271px" th:height="40px" style="border: 1px solid #DCDFE6">
+                                                        <el-button v-if="customerInputVisible"  class="button-new-tag" size="small" @click="openCustomer" type="text" plain>&emsp;+ 添加</el-button>
+                                                        <el-tag
+                                                                :key="tag"
+                                                                v-else
+                                                                v-for="tag in customerDynamicTags"
+                                                                closable
+                                                                :disable-transitions="false"
+                                                                @close="customerHandleClose(tag)">
+                                                            {{tag.name}}
+                                                        </el-tag>
+                                                    </div>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="商机名称">
+                                                    <div th:width="271px" th:height="40px" style="border: 1px solid #DCDFE6">
+                                                        <el-button v-if="businessInputVisible"  class="button-new-tag" size="small" @click="openBusiness" type="text" plain :disabled='disabled'>&emsp;+ 添加</el-button>
+                                                        <el-tag
+                                                                :key="tag"
+                                                                v-else
+                                                                v-for="tag in businessDynamicTags"
+                                                                closable
+                                                                :disable-transitions="false"
+                                                                @close="businessHandleClose(tag)">
+                                                            {{tag.name}}
+                                                        </el-tag>
+                                                    </div>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="下单时间">
+                                                    <el-date-picker v-model="compact.name" type="datetime"
+                                                                    placeholder="选择日期时间">
+                                                    </el-date-picker>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="合同金额">
+                                                    <el-input v-model="compact.name" placeholder="合同金额"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="合同开始时间">
+                                                    <el-date-picker v-model="compact.name" type="datetime"
+                                                                    placeholder="选择日期">
+                                                    </el-date-picker>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="合同到期时间">
+                                                    <el-date-picker v-model="compact.name" type="datetime"
+                                                                    placeholder="选择日期">
+                                                    </el-date-picker>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="客户签约人">
+                                                    <div th:width="271px" th:height="40px" style="border: 1px solid #DCDFE6">
+                                                        <el-button v-if="contactsInputVisible"  class="button-new-tag" size="small" @click="openContacts" type="text" plain>&emsp;+ 添加</el-button>
+
+                                                        <el-tag
+                                                                :key="tag"
+                                                                v-else
+                                                                v-for="tag in contactsDynameicTags"
+                                                                closable
+                                                                :disable-transitions="false"
+                                                                @close="contactsHandleClose(tag)">
+                                                            {{tag.name}}
+                                                        </el-tag>
+                                                    </div>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="公司签约人">
+                                                    <div th:width="271px" th:height="40px" style="border: 1px solid #DCDFE6">
+                                                        <el-button v-if="staffInputVisible"  class="button-new-tag" size="small" @click="openStaff" type="text" plain>&emsp;+ 添加</el-button>
+
+                                                        <el-tag
+                                                                :key="tag"
+                                                                v-else
+                                                                v-for="tag in staffDynameicTags"
+                                                                closable
+                                                                :disable-transitions="false"
+                                                                @close="staffHandleClose(tag)">
+                                                            {{tag.name}}
+                                                        </el-tag>
+                                                    </div>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                    <el-row :gutter="20">
+                                        <el-col :span="12">
+                                            <div class="grid-content">
+                                                <el-form-item label="备注">
+                                                    <el-input v-model="compact.name" placeholder="备注"></el-input>
+                                                </el-form-item>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                </el-form>
+                            </el-row>
+                            <div>
+                                <el-row :gutter="20">
+                                    <el-col :span="6" :offset="20"><div class="grid-content">
+                                        <el-button type="primary" icon="el-icon-circle-plus-outline" size="small" @click="openProduct">添加产品</el-button>
+                                    </div></el-col>
+                                </el-row>
+                                <el-row>
+                                    <!--产品数据-->
+                                <el-table
+                                        :data="showProduct"
+                                        style="width: 100%">
+                                    <el-table-column
+                                            prop="showProduct.name"
+                                            label="产品名称"
+                                            width="180">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="name"
+                                            label="产品类别"
+                                            width="180">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="name"
+                                            label="单位">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="name"
+                                            label="标准价格">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="name"
+                                            label="数量">
+                                    </el-table-column>
+                                </el-table>
+                                </el-row>
+                            </div>
+                            <div slot="footer" class="dialog-footer">
+                                <el-button @click="dialogCompact = false">取 消</el-button>
+                                <el-button type="primary" @click="addCommit">确 定</el-button>
+                            </div>
+                        </el-dialog>
+                        <!--客户列表-->
+                        <el-dialog title="客户列表" :visible.sync="dialogCustomer">
+                            <el-table ref="multipleTable" :data="customerData" tooltip-effect="dark"
+                                      highlight-current-row style="width: 100%"
+                                      @current-change="customerSelectionChange">
+                                <el-table-column label="操作" width="55">
+                                    <template slot-scope="scope">
+                                        <el-checkbox v-model="scope.row.checked"></el-checkbox>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="name" label="姓名" width="120">
+                                </el-table-column>
+                                <el-table-column prop="create_time" label="创建时间" width="160">
+                                </el-table-column>
+                                <el-table-column prop="create_time" label="创建时间" width="160">
+                                </el-table-column>
+                                <el-table-column prop="update_time" label="更新时间" width="160">
+                                </el-table-column>
+                            </el-table>
+                            <div slot="footer" class="dialog-footer">
+                                <el-button @click="dialogCustomer = false">取 消</el-button>
+                                <el-button type="primary" @click="saveCustomer">确 定</el-button>
+                            </div>
+                        </el-dialog>
+                        <!--商机列表-->
+                        <el-dialog title="商机列表" :visible.sync="dialogBusiness">
+                            <el-table ref="multipleTable" :data="businessData" tooltip-effect="dark"
+                                      highlight-current-row style="width: 100%"
+                                      @current-change="businessSelectionChange">
+                                <el-table-column label="操作" width="55">
+                                    <template slot-scope="scope">
+                                        <el-checkbox v-model="scope.row.checked"></el-checkbox>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="name" label="商机名称" width="120">
+                                </el-table-column>
+                                <el-table-column prop="create_time" label="商机金额" width="160">
+                                </el-table-column>
+                                <el-table-column prop="price" label="客户名称" width="160">
+                                </el-table-column>
+                                <el-table-column prop="update_time" label="状态" width="160">
+                                </el-table-column>
+                            </el-table>
+                            <div slot="footer" class="dialog-footer">
+                                <el-button @click="dialogProduct = false">取 消</el-button>
+                                <el-button type="primary" @click="saveBusiness">确 定</el-button>
+                            </div>
+                        </el-dialog>
+                        <!--产品列表-->
+                        <el-dialog title="产品列表" :visible.sync="dialogProduct">
+                            <el-table ref="multipleTable" :data="productData" tooltip-effect="dark"
+                                      highlight-current-row style="width: 100%"
+                                      @current-change="productSelectionChange">
+                                <el-table-column label="操作" width="55">
+                                    <template slot-scope="scope">
+                                        <el-checkbox v-model="scope.row.checked"></el-checkbox>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="name" label="产品名称" width="120">
+                                </el-table-column>
+                                <el-table-column prop="create_time" label="产品类别" width="160">
+                                </el-table-column>
+                                <el-table-column prop="price" label="价格" width="160">
+                                </el-table-column>
+                                <el-table-column prop="update_time" label="单位" width="160">
+                                </el-table-column>
+                            </el-table>
+                            <div slot="footer" class="dialog-footer">
+                                <el-button @click="dialogProduct = false">取 消</el-button>
+                                <el-button type="primary" @click="saveProduct">确 定</el-button>
+                            </div>
+                        </el-dialog>
+                        <!--联系人列表-->
+                        <el-dialog title="联系人列表" :visible.sync="dialogContacts">
+                            <el-table ref="multipleTable" :data="contactsData" tooltip-effect="dark"
+                                      highlight-current-row style="width: 100%"
+                                      @current-change="ContactsSelectionChange">
+                                <el-table-column label="操作" width="55" fixed>
+                                    <template slot-scope="scope">
+                                        <el-checkbox v-model="scope.row.checked"></el-checkbox>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="name" label="姓名" width="120" fixed>
+                                </el-table-column>
+                                <el-table-column prop="create_time" label="手机" width="160">
+                                </el-table-column>
+                                <el-table-column prop="price" label="电话" width="160">
+                                </el-table-column>
+                                <el-table-column prop="update_time" label="是否为决策人" width="160">
+                                </el-table-column>
+                                <el-table-column prop="update_time" label="职务" width="160">
+                                </el-table-column>
+                            </el-table>
+                            <div slot="footer" class="dialog-footer">
+                                <el-button @click="dialogContacts = false">取 消</el-button>
+                                <el-button type="primary" @click="saveContacts">确 定</el-button>
+                            </div>
+                        </el-dialog>
+                        <!--负责人列表-->
+                        <el-dialog title="负责人列表" :visible.sync="dialogStaff">
+                            <el-table ref="multipleTable" :data="staffData" tooltip-effect="dark"
+                                      highlight-current-row style="width: 100%"
+                                      @current-change="staffSelectionChange">
+                                <el-table-column label="操作" width="55">
+                                    <template slot-scope="scope">
+                                        <el-checkbox v-model="scope.row.checked"></el-checkbox>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="name" label="名称" width="120">
+                                </el-table-column>
+                            </el-table>
+                            <div slot="footer" class="dialog-footer">
+                                <el-button @click="dialogStaff = false">取 消</el-button>
+                                <el-button type="primary" @click="saveStaff">确 定</el-button>
+                            </div>
+                        </el-dialog>
+
+                    </div>
+                </el-main>
+            </el-container>
+        </el-container>
+    </el-container>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                input3:'',                             //搜索框的值
+                currentPage4:1,                        //分页部分的当前页
+                total: '',
+                compactData: [{                       //合同表格数据
+                    customer_name: '',
+                    follow_up: '',
+                    cus_level: '',
+                    industry: '',
+                    charge_man: '',
+                    create_man: '',
+                    source: '',
+                    detail_address: '',
+                    create_time: '',
+                    update_time: '',
+                    next_time: '',
+                    remarks: '',
+                    mobile: '',
+                    telephone: ''
+                }],
+                compact: {                              //新建合同表单对象
+                    name: '',
+                    mobile: '',
+                    telephone: '',
+                    detail_address: '',
+                    industry: '',
+                    next_time: '',
+                    source: '',
+                    cus_level: '',
+                    remarks: '',
+                    create_user_id: ''
+                },
+                formLabelWidth: '100px',               //表单lable宽度
+                dialogCompact: false,                  //默认隐藏新建合同框
+                dialogCustomer:false,                  //默认隐藏添加客户弹出框
+                dialogBusiness:false,                  //默认隐藏添加商机弹出框
+                dialogContacts:false,                  //默认隐藏添加客户签约人弹出框
+                dialogProduct:false,                   //默认隐藏添加产品弹出框
+                dialogStaff:false,                     //默认隐藏添加负责人弹出框
+                customerInputVisible:true,             //添加客户按钮显示默认开启
+                businessInputVisible:true,             //添加商机按钮显示默认开启
+                contactsInputVisible:true,             //添加客户签约人显示默认开启
+                staffInputVisible:true,                //添加公司签约人显示默认开启
+                customerId:'',                         //客户Id,根据这个值,查出它的商机
+                inputValue:'',
+                customerData:[],                       //弹出客户表格数据
+                businessData:[],                       //弹出商机表格数据
+                contactsData:[],                       //弹出联系人表格数据
+                productData:[],                        //弹出产品列表数据
+                staffData:[],                          //弹出负责人列表数据
+                customerDynamicTags:[],                //存储客户显示的标签
+                businessDynamicTags:[],                //存储商机显示的标签
+                contactsDynameicTags:[],               //存储客户签约人显示的标签
+                staffDynameicTags:[],                  //存储负责人显示的标签
+                inputBusiness_id:'',                   //存储产品id
+                showProduct:[] ,                       //显示选中产品数据
+                addProduct:[] ,                        //存储勾选的产品数据
+                disabled:true,
+                dynamicTagstest:[],
+                inputVisibletest:true
+            }
+        },
+        methods: {
+            addCommit() {
+                const _this = this;
+                // $.ajax({
+                //     url: "http://www.clientest.com/kehu/customerController/customer",
+                //     data: JSON.stringify(this.customer),
+                //     type: "POST",
+                //     dataType: "JSON",
+                //     contentType: 'application/json; charset=UTF-8',
+                //     success: function (data) {
+                //         console.log(data);
+                //     },
+                //     error: function (err) {
+                //         console.log(err);
+                //     }
+                // })
+                this.dialogFormVisible = false;
+            },
+            //打开客户列表，查出客户信息
+            openCustomer(){
+                this.dialogCustomer=true;//打开客户列表
+                let resdata = [{
+                    id: 44,
+                    date: '2016-05-03',
+                    name: '跟你玩有限公司',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                },{
+                    id: 89,
+                    date: '2016-05-02',
+                    name: '实习好难找有限公司',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    id: 23,
+                    date: '2016-05-04',
+                    name: '我好难信息有限公司',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                },{
+                    id: 88,
+                    date: '2016-05-07',
+                    name: '快来救我啊有限公司',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }];
+                resdata.forEach(item => {
+                    item.checked = false
+                });
+                this.customerData = resdata;
+
+            },
+            //保存所选取的客户
+            saveCustomer(){
+                this.customerInputVisible=false ;
+                //关闭模态框
+                this.dialogCustomer=false;
+                //把添加商机激活
+                this.disabled=false;
+            },
+            //添加客户复选框监听事件
+            customerSelectionChange(row){
+                this.customerData.forEach(item => {
+                    // 排他,每次选择时把其他选项都清除
+                    if (item.id !== row.id) {
+                        item.checked = false
+                    }else{
+                        this.customerDynamicTags=[{
+                            name:item.name,
+                        }]
+                        //把客户id写入表单
+                        this.customerId=item.id;
+                    }
+                })
+            },
+            //关闭所选客户标签
+            customerHandleClose(tag){
+                this.customerDynamicTags.splice(this.customerDynamicTags.indexOf(tag), 1); //删除当前标签
+                this.customerInputVisible=true;
+                //把添加商机禁用
+                this.disabled=true;
+            },
+            //打开商机列表，查出商机信息
+            openBusiness(){
+                this.dialogBusiness=true;//打开商机列表
+                let resdata = [{
+                    id: 44,
+                    date: '2016-05-03',
+                    name: '小王',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                },{
+                    id: 89,
+                    date: '2016-05-02',
+                    name: '李三',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    id: 23,
+                    date: '2016-05-04',
+                    name: '王五',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                },{
+                    id: 88,
+                    date: '2016-05-07',
+                    name: '啊七',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }];
+                resdata.forEach(item => {
+                    item.checked = false
+                });
+                this.businessData = resdata;
+            },
+            //保存所选取的商机
+            saveBusiness(){
+                this.businessInputVisible=false ;
+                //关闭模态框
+                this.dialogBusiness=false;
+            },
+            //添加商机复选框监听事件
+            businessSelectionChange(row){
+                this.businessData.forEach(item => {
+                    // 排他,每次选择时把其他选项都清除
+                    if (item.id !== row.id) {
+                        item.checked = false
+                    }else{
+                        this.businessDynamicTags=[{
+                            name:item.name,
+                        }]
+                        this.inputValue=item.name;
+                    }
+                })
+            },
+            //关闭所选的商机标签
+            businessHandleClose(tag){
+                this.businessDynamicTags.splice(this.businessDynamicTags.indexOf(tag), 1); //删除当前标签
+                this.businessInputVisible=true;
+                this.inputValue='';
+            },
+            //打开客户签约人列表，查出联系人信息
+            openContacts(){
+                this.dialogContacts=true;//打开联系人列表
+                let resdata = [{
+                    id: 44,
+                    date: '2016-05-03',
+                    name: '李大哥',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                },{
+                    id: 89,
+                    date: '2016-05-02',
+                    name: '李大爷',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    id: 23,
+                    date: '2016-05-04',
+                    name: '张大妈',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                },{
+                    id: 88,
+                    date: '2016-05-07',
+                    name: '王叔',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }];
+                resdata.forEach(item => {
+                    item.checked = false
+                });
+                this.contactsData = resdata;
+            },
+            //保存所选取的签约人
+            saveContacts(){
+                this.contactsInputVisible=false ;
+                //关闭模态框
+                this.dialogContacts=false;
+            },
+            //添加签约人复选框监听事件
+            ContactsSelectionChange(row){
+                this.contactsData.forEach(item => {
+                    // 排他,每次选择时把其他选项都清除
+                    if (item.id !== row.id) {
+                        item.checked = false
+                    }else{
+                        this.contactsDynameicTags=[{
+                            name:item.name,
+                        }]
+                        this.inputValue=item.name;
+                    }
+                })
+            },
+            //关闭所选的签约人标签
+            contactsHandleClose(tag){
+                this.contactsDynameicTags.splice(this.contactsDynameicTags.indexOf(tag), 1); //删除当前标签
+                this.contactsInputVisible=true;
+            },
+            //打开公司负责人列表，查出负责人信息
+            openStaff(){
+                this.dialogStaff=true;//打开联系人列表
+                let resdata = [{
+                    id: 44,
+                    date: '2016-05-03',
+                    name: '小李',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                },{
+                    id: 89,
+                    date: '2016-05-02',
+                    name: '小明',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    id: 23,
+                    date: '2016-05-04',
+                    name: '小红',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                },{
+                    id: 88,
+                    date: '2016-05-07',
+                    name: '小王',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }];
+                resdata.forEach(item => {
+                    item.checked = false
+                });
+                this.staffData = resdata;
+            },
+            //保存所选取的负责人
+            saveStaff(){
+                this.staffInputVisible=false ;
+                //关闭模态框
+                this.dialogStaff=false;
+            },
+            //添加负责人复选框监听事件
+            staffSelectionChange(row){
+                this.staffData.forEach(item => {
+                    // 排他,每次选择时把其他选项都清除
+                    if (item.id !== row.id) {
+                        item.checked = false
+                    }else{
+                        this.staffDynameicTags=[{
+                            name:item.name,
+                        }]
+                        this.inputValue=item.name;
+                    }
+                })
+            },
+            //关闭所选的负责人标签
+            staffHandleClose(tag){
+                this.staffDynameicTags.splice(this.staffDynameicTags.indexOf(tag), 1); //删除当前标签
+                this.staffInputVisible=true;
+            },
+
+
+            //打开添加产品
+            openProduct(){
+                this.dialogProduct=true;
+                let resdata = [{
+                    id:44,
+                    price: 44,
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                },{
+                    id:89,
+                    price: 89,
+                    date: '2016-05-02',
+                    name: '李四',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    id:23,
+                    price: 23,
+                    date: '2016-05-04',
+                    name: '张三',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                },{
+                    id:88,
+                    price: 88,
+                    date: '2016-05-07',
+                    name: '王五',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }];
+                resdata.forEach(item => {
+                    item.checked = false
+                });
+                this.productData = resdata;
+            },
+            //产品列表复选框监听事件
+            productSelectionChange(row){
+                this.productData.forEach(item => {
+                    // 排他,每次选择时把其他选项都清除
+                    if (item.id !== row.id) {
+                        item.checked = false
+                    }else{
+                        this.addProduct=item;
+                    }
+                })
+            },
+            //保存所选产品
+            saveProduct(){
+                this.dialogProduct =false;
+                this.showProduct=[{
+                    name:this.addProduct.name,
+                }];
+            }
+
+
+        },
+        mounted() {
+            const _this = this; //将全局this赋值给axios中的变量（在axios中使用全局this）
+            axios
+                .get('http://www.clientest.com/kehu/customerController/customer?pageNum=1&pageSize=10')
+
+                .then(response => {
+                    _this.customerData = response.data.list,
+                        _this.total = response.data.total
+                })
+                .catch(function (error) { // 请求失败处理
+                    console.log(error);
+                });
+        },
+
+    })
+</script>
+
+</html>
