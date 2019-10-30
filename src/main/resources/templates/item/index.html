@@ -7,6 +7,7 @@
     <title>项目管理</title>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
     <script src="base/plugins/jquery/jquery.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -99,71 +100,33 @@
 </body>
 
 <script >
-    /*new Vue({
+    new Vue({
         el: '#app',
         data: function() {
             return {
                 itemIng:[],
                 itemDone:[],
                 itemFile:[]
-            }
+            };
         },
-        created:function () {
-            this.initData();
-            console.log(this.itemIng);
+         created() {
+            const that=this;
+            axios.get('http://localhost:8086/item/getByIng',{
+                params:{
+                    itemFinish1:0,
+                    itemFinish2:1,
+                    sort:1
+                }
+            }).then(req => {
+                that.itemIng=req.data[0];
+                that.itemDone=req.data[1];
+                that.itemFile=req.data[2];
+
+            }).catch(req =>{
+            })
         },
         methods: {
-            initData(){
-                $.ajax({
-                    type:'GET',
-                    url:'http://localhost:8086/item/getByIng',
-                    contentType: 'application/json',
-                    dataType:'json',
-                    data:{
-                        itemFinish1:"0",
-                        itemFinish2:"1",
-                        sort:"1"
-                    },
-                    success:function (req) {
-                        console.log("success");
-                        console.log("success=="+this.itemIng);
-
-                        this.itemIng=req.itemIng;
-                        this.itemDone=req.itemDone;
-                        this.itemFile=req.itemFile;
-                    }
-                })
-            }
         }
-
-    })*/
-
-    $(function() {
-        $.ajax({
-            type:'GET',
-            url:'http://localhost:8086/item/getByIng',
-            contentType: 'application/json',
-            dataType:'json',
-            data:{
-                itemFinish1:"0",
-                itemFinish2:"1",
-                sort:"1"
-            },
-            success:function (req) {
-                console.log(req)
-                var Main = {
-                    data() {
-                        return {
-                            itemIng:req[0],
-                            itemDone:req[1],
-                            itemFile:req[2]
-                        };
-                    },
-                };
-                var Ctor = Vue.extend(Main);
-                new Ctor().$mount('#app');
-            }
-        })
     })
 </script>
 

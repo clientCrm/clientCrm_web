@@ -63,8 +63,8 @@
                                 </el-table-column>
                                 <el-table-column  label="完成状况" width="120" align='center'>
                                     <template slot-scope="scope">
-                                            <span v-if="scope.row.item.itemFinish==0">未完成</span>
-                                            <span v-else>已完成</span>
+                                        <span v-if="scope.row.item.itemFinish==0">未完成</span>
+                                        <span v-else>已完成</span>
                                         <!--<div v-for="(member, index) in scope.row.itemMembers" :key="index">
                                         </div>-->
                                     </template>
@@ -80,14 +80,10 @@
                                 <el-table-column
                                         fixed="right"
                                         label="操作"
-                                        width="120"
-                                        >
+                                        width="120">
                                     <template slot-scope="scope">
-                                        <!--@click.native.prevent="deleteRow(scope.$index, tableData)"
-                                        type="text"
-                                        size="small">-->
+
                                         <el-button @click="showClick(scope.row)" type="text" size="small">查看</el-button>
-                                        <el-button @click="editClick(scope.row)" type="text" size="small">编辑</el-button>
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -95,12 +91,11 @@
                                         label="归档"
                                         width="60"
                                         align='center'>
-                                        <template slot-scope="scope">
-                                            <div v-if="scope.row.item.itemFinish==1">
-                                                <el-button type="text" @click="file(scope.row)" size="small">归档</el-button>
-                                                <!--<el-button @click="handleClick(scope.row)" type="text" size="small">归档</el-button>-->
-                                            </div>
-                                        </template>
+                                    <template slot-scope="scope">
+                                        <div v-if="scope.row.item.itemFinish==1">
+                                            <el-button type="text" @click="file(scope.row)" size="small">恢复</el-button>
+                                        </div>
+                                    </template>
                                 </el-table-column>
                             </el-table>
                             <div class="block">
@@ -137,12 +132,7 @@
                                         <div v-if="itemDetail.item.scope==1">
                                             <el-input placeholder="公开：企业所有成员都能看到此项目" :disabled="true"></el-input>
                                         </div>
-                                        <!--    <div v-if="itemDetail.item.scope==0">
-                                                <span>私有：只有加入成员才能看到此项目</span>
-                                            </div>
-                                            <div v-if="itemDetail.item.scope==1">
-                                                <span>公开：企业所有成员都能看到此项目</span>
-                                            </div>-->
+
                                         </el-input>
                                     </el-form-item>
                                 </el-form>
@@ -180,26 +170,13 @@
         created() {
             const that=this;
             that.init(1,10);
-            /*axios.get('http://localhost:8086/item/getPageByExit',{
-                params:{
-                    sort:0,
-                    type:1,
-                    thisPage:1,
-                    limit:10
-                }
-            }).then(req => {
-                that.itemVos=req.data.itemVos;
-                that.total=req.data.total;
-            }).catch(req =>{
-            })*/
         },
         methods: {
             init(currentPage,size){
                 const that=this;
-                axios.get('http://localhost:8086/item/getPageByExit',{
+                axios.get('http://localhost:8086/item/getPageBySort',{
                     params:{
-                        sort:0,
-                        type:1,
+                        sort:1,
                         thisPage:currentPage,
                         limit:size
                     }
@@ -228,12 +205,9 @@
                 this.itemDetail=row;
                 console.log(this.itemDetail)
             },
-            //编辑按钮
-            editClick(row){
-                console.log(row);
-            },
+
             file(row) {
-                this.$confirm('此操作将归档该文件,可从归档区恢复，是否继续?', '提示', {
+                this.$confirm('此操作将恢复该归档文件，是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
@@ -243,7 +217,7 @@
                     const that=this;
                     axios.put('http://localhost:8086/item/updateBySort',{
                         itemId:row.item.itemId,
-                        sort:1
+                        sort:0
                     })
                         .then(req => {
                             this.$message({
@@ -252,8 +226,8 @@
                             });
                             that.init(1,10);
                         }).catch(req =>{
-                            console.log("失败")
-                        })
+                        console.log("失败")
+                    })
 
                 }).catch(() => {
                     this.$message({
